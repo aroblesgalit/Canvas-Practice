@@ -40,6 +40,27 @@ $(document).ready(function () {
     //     c.stroke();
     // }
 
+    const mouse = {
+        x: undefined,
+        y: undefined
+    }
+
+    const maxRadius = 40;
+    const minRadius = 10;
+
+    // Colors array
+    const colorArray = [
+        "#a5dff9", 
+        "#ef5285", 
+        "#60c5ba", 
+        "#feee7d"
+    ];
+
+    $(window).mousemove(function(event) {
+        mouse.x = event.clientX;
+        mouse.y = event.clientY;
+    });
+
     // Create a Circle object
     function Circle(x, y, dx, dy, radius) {
         this.x = x;
@@ -47,18 +68,17 @@ $(document).ready(function () {
         this.dx = dx;
         this.dy = dy;
         this.radius = radius;
+        this.color = colorArray[Math.floor(Math.random() * colorArray.length)];
 
         this.draw = function () {
-            // Colors array
-            const circleFills = ["#a5dff9", "#ef5285", "#60c5ba", "#feee7d"];
             // Create a circle
             c.beginPath();
             c.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
             // c.strokeStyle = "blue";
             // c.stroke();
+            c.fillStyle = this.color;
             c.fill();
             // c.fillStyle = circleFills[Math.floor(Math.random() * circleFills.length)];
-            c.fillStyle = "#a5dff9";
         }
 
         this.update = function () {
@@ -77,6 +97,16 @@ $(document).ready(function () {
             // Increment x by dx
             this.x += this.dx;
             this.y += this.dy;
+
+            // Interactivity
+            if (mouse.x - this.x < 50 && mouse.x - this.x > -50
+                && mouse.y - this.y < 50 && mouse.y - this.y > -50) {
+                if (this.radius < maxRadius) {
+                    this.radius += 1;
+                }
+            } else if (this.radius > minRadius) {
+                this.radius -= 1;
+            }
 
             this.draw();
         }
