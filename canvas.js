@@ -49,11 +49,16 @@ $(document).ready(function () {
         this.radius = radius;
 
         this.draw = function () {
+            // Colors array
+            const circleFills = ["#a5dff9", "#ef5285", "#60c5ba", "#feee7d"];
             // Create a circle
             c.beginPath();
             c.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
-            c.strokeStyle = "blue";
-            c.stroke();
+            // c.strokeStyle = "blue";
+            // c.stroke();
+            c.fill();
+            // c.fillStyle = circleFills[Math.floor(Math.random() * circleFills.length)];
+            c.fillStyle = "#a5dff9";
         }
 
         this.update = function () {
