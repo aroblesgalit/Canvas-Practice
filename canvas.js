@@ -1,9 +1,6 @@
 $(document).ready(function () {
     // Grab the canvas
     const canvas = $("canvas")[0];
-    // Set height and width of canvas to winsow's dimensions
-    canvas.width = $("body").width();
-    canvas.height = $("body").height();
 
     // Context
     const c = canvas.getContext("2d");
@@ -50,15 +47,23 @@ $(document).ready(function () {
 
     // Colors array
     const colorArray = [
-        "#a5dff9", 
-        "#ef5285", 
-        "#60c5ba", 
+        "#a5dff9",
+        "#ef5285",
+        "#60c5ba",
         "#feee7d"
     ];
 
-    $(window).mousemove(function(event) {
+    $(window).mousemove(function (event) {
         mouse.x = event.clientX;
         mouse.y = event.clientY;
+    });
+
+    $(window).resize(function (event) {
+        // Set height and width of canvas to winsow's dimensions
+        canvas.width = $("body").width();
+        canvas.height = $("body").height();
+
+        init();
     });
 
     // Create a Circle object
@@ -68,6 +73,7 @@ $(document).ready(function () {
         this.dx = dx;
         this.dy = dy;
         this.radius = radius;
+        this.minRadius = radius;
         this.color = colorArray[Math.floor(Math.random() * colorArray.length)];
 
         this.draw = function () {
@@ -104,7 +110,7 @@ $(document).ready(function () {
                 if (this.radius < maxRadius) {
                     this.radius += 1;
                 }
-            } else if (this.radius > minRadius) {
+            } else if (this.radius > this.minRadius) {
                 this.radius -= 1;
             }
 
@@ -112,17 +118,25 @@ $(document).ready(function () {
         }
     }
 
-    const circleArray = [];
+    let circleArray = [];
 
-    for (let i = 0; i < 100; i++) {
-        let radius = 30;
-        let x = Math.random() * (innerWidth - radius * 2) + radius;
-        let y = Math.random() * (innerHeight - radius * 2) + radius;
-        let dx = (Math.random() - 0.5);
-        let dy = (Math.random() - 0.5);
-        circleArray.push(new Circle(x, y, dx, dy, radius));
+    function init() {
+        // Set height and width of canvas to winsow's dimensions
+        canvas.width = $("body").width();
+        canvas.height = $("body").height();
+        // Clear out array
+        circleArray = [];
+
+        for (let i = 0; i < 800; i++) {
+            let radius = Math.random() * 3 + 1;
+            let x = Math.random() * (innerWidth - radius * 2) + radius;
+            let y = Math.random() * (innerHeight - radius * 2) + radius;
+            let dx = (Math.random() - 0.5);
+            let dy = (Math.random() - 0.5);
+            circleArray.push(new Circle(x, y, dx, dy, radius));
+        }
     }
-   
+
     function animate() {
         // Animate by using requestAnimationFrame function and passing in the animate function
         requestAnimationFrame(animate);
@@ -132,8 +146,10 @@ $(document).ready(function () {
         for (let i = 0; i < circleArray.length; i++) {
             circleArray[i].update();
         }
-        
+
     };
+
+    init();
 
     // Run animate
     animate();
