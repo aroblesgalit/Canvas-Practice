@@ -47,10 +47,11 @@ $(document).ready(function () {
 
     // Colors array
     const colorArray = [
-        "#a5dff9",
-        "#ef5285",
-        "#60c5ba",
-        "#feee7d"
+        "#FB2162",
+        "#FB6660",
+        "#EFD477",
+        "#20BDA1",
+        "#0C4056"
     ];
 
     $(window).mousemove(function (event) {
